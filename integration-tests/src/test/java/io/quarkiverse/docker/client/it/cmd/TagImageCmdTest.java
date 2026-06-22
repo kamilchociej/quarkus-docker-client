@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's TagImageCmdIT. */
 @QuarkusTest
 public class TagImageCmdTest {
 
@@ -20,9 +19,8 @@ public class TagImageCmdTest {
         ensureBusybox();
     }
 
-    // TagImageCmdIT#tagImage
     @Test
-    public void testTagImage() {
+    public void tagImage() {
         String tag = String.valueOf(Math.abs(System.nanoTime()));
         String tagged = "docker-java/busybox:" + tag;
         try {
@@ -41,9 +39,8 @@ public class TagImageCmdTest {
         }
     }
 
-    // TagImageCmdIT#tagNonExistingImage
     @Test
-    public void testTagNonExistingImage() {
+    public void tagNonExistingImage() {
         given()
                 .when()
                 .queryParam("image", "non-existing")

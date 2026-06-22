@@ -1,7 +1,8 @@
 package io.quarkiverse.docker.client.it.cmd;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasItem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's ListVolumesCmdIT. */
 @QuarkusTest
 public class ListVolumesCmdTest {
 
@@ -20,9 +20,8 @@ public class ListVolumesCmdTest {
         CmdTestSupport.removeVolume(VOLUME_NAME);
     }
 
-    // ListVolumesCmdIT#listVolumes
     @Test
-    public void testListVolumes() {
+    public void listVolumes() {
         given().post("/docker-volume/" + VOLUME_NAME).then().statusCode(200);
 
         given()

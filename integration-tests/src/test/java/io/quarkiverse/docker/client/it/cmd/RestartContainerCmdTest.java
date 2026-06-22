@@ -4,14 +4,14 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's RestartContainerCmdImplIT. */
 @QuarkusTest
 public class RestartContainerCmdTest {
 
@@ -20,9 +20,8 @@ public class RestartContainerCmdTest {
         ensureBusybox();
     }
 
-    // RestartContainerCmdImplIT#restartContainer
     @Test
-    public void testRestartContainer() {
+    public void restartContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             String startedAt1 = given().get("/docker-container/" + id + "/inspect")
@@ -42,9 +41,8 @@ public class RestartContainerCmdTest {
         }
     }
 
-    // RestartContainerCmdImplIT#restartNonExistingContainer
     @Test
-    public void testRestartNonExistingContainer() {
+    public void restartNonExistingContainer() {
         given().post("/docker-container/non-existing/restart").then().statusCode(404);
     }
 }

@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createContainer
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's InspectContainerCmdIT. */
 @QuarkusTest
 public class InspectContainerCmdTest {
 
@@ -20,9 +19,8 @@ public class InspectContainerCmdTest {
         ensureBusybox();
     }
 
-    // InspectContainerCmdIT#inspectContainer
     @Test
-    public void testInspectContainer() {
+    public void inspectContainer() {
         String id = createContainer("top");
         try {
             given()
@@ -37,9 +35,8 @@ public class InspectContainerCmdTest {
         }
     }
 
-    // InspectContainerCmdIT#inspectNonExistingContainer
     @Test
-    public void testInspectNonExistingContainer() {
+    public void inspectNonExistingContainer() {
         given().get("/docker-container/non-existing/inspect").then().statusCode(404);
     }
 }

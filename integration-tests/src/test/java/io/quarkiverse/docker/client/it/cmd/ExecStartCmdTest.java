@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's ExecStartCmdIT. */
 @QuarkusTest
 public class ExecStartCmdTest {
 
@@ -31,9 +30,8 @@ public class ExecStartCmdTest {
                 .asString();
     }
 
-    // ExecStartCmdIT#execStart : exec creates a file inside the container
     @Test
-    public void testExecStart() {
+    public void execStart() {
         String containerId = createAndStartContainer("sleep,9999");
         try {
             String touchExec = execCreate(containerId, "touch,/execStartTest.log");

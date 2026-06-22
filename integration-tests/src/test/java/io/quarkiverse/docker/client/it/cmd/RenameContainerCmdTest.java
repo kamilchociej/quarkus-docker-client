@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's RenameContainerCmdIT. */
 @QuarkusTest
 public class RenameContainerCmdTest {
 
@@ -20,9 +19,8 @@ public class RenameContainerCmdTest {
         ensureBusybox();
     }
 
-    // RenameContainerCmdIT#renameContainer
     @Test
-    public void testRenameContainer() {
+    public void renameContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             String newName = "renamed-" + System.nanoTime();
@@ -38,9 +36,8 @@ public class RenameContainerCmdTest {
         }
     }
 
-    // RenameContainerCmdIT#renameExistingContainer (non-existing)
     @Test
-    public void testRenameNonExistingContainer() {
+    public void renameNonExistingContainer() {
         given().queryParam("name", "foo").post("/docker-container/non-existing/rename").then().statusCode(404);
     }
 }

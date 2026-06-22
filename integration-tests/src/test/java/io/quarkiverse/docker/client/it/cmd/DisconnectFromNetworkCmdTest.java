@@ -6,14 +6,14 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeNetwork;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's DisconnectFromNetworkCmdIT. */
 @QuarkusTest
 public class DisconnectFromNetworkCmdTest {
 
@@ -22,9 +22,8 @@ public class DisconnectFromNetworkCmdTest {
         ensureBusybox();
     }
 
-    // DisconnectFromNetworkCmdIT#disconnectFromNetwork
     @Test
-    public void testDisconnectFromNetwork() {
+    public void disconnectFromNetwork() {
         String containerId = createAndStartContainer("sleep,9999");
         String networkId = createNetwork("disconnectNetwork-" + System.nanoTime());
         try {

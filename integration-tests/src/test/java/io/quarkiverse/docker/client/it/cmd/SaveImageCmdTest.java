@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's SaveImageCmdIT. */
 @QuarkusTest
 public class SaveImageCmdTest {
 
@@ -18,9 +17,8 @@ public class SaveImageCmdTest {
         ensureBusybox();
     }
 
-    // SaveImageCmdIT#saveImage : the exported tar stream is not empty
     @Test
-    public void testSaveImage() {
+    public void saveImage() {
         byte[] tar = given()
                 .when()
                 .queryParam("name", "busybox")

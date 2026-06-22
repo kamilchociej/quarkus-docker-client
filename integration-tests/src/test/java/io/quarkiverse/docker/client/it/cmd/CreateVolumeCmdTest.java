@@ -1,7 +1,8 @@
 package io.quarkiverse.docker.client.it.cmd;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's CreateVolumeCmdIT. */
 @QuarkusTest
 public class CreateVolumeCmdTest {
 
@@ -20,9 +20,8 @@ public class CreateVolumeCmdTest {
         CmdTestSupport.removeVolume(VOLUME_NAME);
     }
 
-    // CreateVolumeCmdIT#createVolume
     @Test
-    public void testCreateVolume() {
+    public void createVolume() {
         given()
                 .when()
                 .post("/docker-volume/" + VOLUME_NAME)
@@ -35,9 +34,8 @@ public class CreateVolumeCmdTest {
                 .body("Mountpoint", containsString("/" + VOLUME_NAME + "/"));
     }
 
-    // CreateVolumeCmdIT#createVolumeWithExistingName
     @Test
-    public void testCreateVolumeWithExistingName() {
+    public void createVolumeWithExistingName() {
         String mountpoint1 = given()
                 .when()
                 .post("/docker-volume/" + VOLUME_NAME)

@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's RemoveImageCmdIT. */
 @QuarkusTest
 public class RemoveImageCmdTest {
 
-    // RemoveImageCmdIT#removeNonExistingImage
     @Test
-    public void testRemoveNonExistingImage() {
+    public void removeNonExistingImage() {
         given()
                 .when()
                 .queryParam("name", "non-existing")

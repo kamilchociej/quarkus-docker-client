@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's RemoveVolumeCmdIT. */
 @QuarkusTest
 public class RemoveVolumeCmdTest {
 
@@ -18,9 +17,8 @@ public class RemoveVolumeCmdTest {
         CmdTestSupport.removeVolume(VOLUME_NAME);
     }
 
-    // RemoveVolumeCmdIT#removeVolume : after removal the volume is gone (404)
     @Test
-    public void testRemoveVolume() {
+    public void removeVolume() {
         given().post("/docker-volume/" + VOLUME_NAME).then().statusCode(200);
 
         given()

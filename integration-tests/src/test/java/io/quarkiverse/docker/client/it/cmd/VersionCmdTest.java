@@ -1,19 +1,20 @@
 package io.quarkiverse.docker.client.it.cmd;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's VersionCmdIT. */
 @QuarkusTest
 public class VersionCmdTest {
 
     @Test
-    public void testVersion() {
+    public void version() {
         given()
                 .when()
                 .get("/docker-system/version")

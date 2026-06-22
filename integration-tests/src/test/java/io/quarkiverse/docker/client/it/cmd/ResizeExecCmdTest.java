@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's ResizeExecCmdIT. */
 @QuarkusTest
 public class ResizeExecCmdTest {
 
@@ -20,9 +19,8 @@ public class ResizeExecCmdTest {
         ensureBusybox();
     }
 
-    // ResizeExecCmdIT#resizeExecInstanceTtyTest
     @Test
-    public void testResizeExec() {
+    public void resizeExec() {
         String containerId = createAndStartContainer("sleep,9999");
         try {
             given()

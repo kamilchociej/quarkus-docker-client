@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's LoadImageCmdIT. */
 @QuarkusTest
 public class LoadImageCmdTest {
 
@@ -17,9 +16,8 @@ public class LoadImageCmdTest {
         ensureBusybox();
     }
 
-    // LoadImageCmdIT#loadImageFromTar : save then load an image round-trip
     @Test
-    public void testLoadImage() {
+    public void loadImage() {
         given()
                 .when()
                 .queryParam("name", "busybox")

@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.inspectImage;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeImage;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's BuildImageCmdIT. */
 @QuarkusTest
 public class BuildImageCmdTest {
 
@@ -20,7 +19,6 @@ public class BuildImageCmdTest {
         ensureBusybox();
     }
 
-    // BuildImageCmdIT#labels : build an image carrying a label
     @Test
     public void buildImage() {
         String imageId = null;

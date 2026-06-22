@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's StartContainerCmdIT. */
 @QuarkusTest
 public class StartContainerCmdTest {
 
@@ -20,9 +19,8 @@ public class StartContainerCmdTest {
         ensureBusybox();
     }
 
-    // StartContainerCmdIT#startContainer
     @Test
-    public void testStartContainer() {
+    public void startContainer() {
         String id = createAndStartContainer("top");
         try {
             given()
@@ -36,9 +34,8 @@ public class StartContainerCmdTest {
         }
     }
 
-    // StartContainerCmdIT#testStartNonExistingContainer
     @Test
-    public void testStartNonExistingContainer() {
+    public void startNonExistingContainer() {
         given().post("/docker-container/non-existing/start").then().statusCode(404);
     }
 }

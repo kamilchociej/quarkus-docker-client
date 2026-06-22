@@ -2,7 +2,10 @@ package io.quarkiverse.docker.client.it.cmd;
 
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's ListImagesCmdIT. */
 @QuarkusTest
 public class ListImagesCmdTest {
 
@@ -19,9 +21,8 @@ public class ListImagesCmdTest {
         ensureBusybox();
     }
 
-    // ListImagesCmdIT#listImages
     @Test
-    public void testListImages() {
+    public void listImages() {
         given()
                 .when()
                 .get("/docker-image")

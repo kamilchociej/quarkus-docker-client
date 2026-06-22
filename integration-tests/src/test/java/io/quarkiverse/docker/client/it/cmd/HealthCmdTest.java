@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.BUSYBOX;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's HealthCmdIT. */
 @QuarkusTest
 public class HealthCmdTest {
 
@@ -20,9 +19,8 @@ public class HealthCmdTest {
         ensureBusybox();
     }
 
-    // HealthCmdIT#healthiness
     @Test
-    public void testHealthContainer() {
+    public void healthContainer() {
         String id = given()
                 .when()
                 .queryParam("image", BUSYBOX)

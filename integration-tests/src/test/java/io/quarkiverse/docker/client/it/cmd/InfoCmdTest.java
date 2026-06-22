@@ -1,19 +1,19 @@
 package io.quarkiverse.docker.client.it.cmd;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.notNullValue;
 
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's InfoCmdIT. */
 @QuarkusTest
 public class InfoCmdTest {
 
     @Test
-    public void testInfo() {
+    public void info() {
         given()
                 .when()
                 .get("/docker-system/info")

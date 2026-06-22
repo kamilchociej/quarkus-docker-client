@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's PingCmdIT. */
 @QuarkusTest
 public class PingCmdTest {
 
     @Test
-    public void testPing() {
+    public void ping() {
         given()
                 .when()
                 .get("/docker-system/ping")

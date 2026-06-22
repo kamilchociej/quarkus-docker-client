@@ -1,11 +1,11 @@
 package io.quarkiverse.docker.client.it.cmd;
 
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.BUSYBOX;
-import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createContainer;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's CreateContainerCmdIT. */
 @QuarkusTest
 public class CreateContainerCmdTest {
 
@@ -23,10 +22,9 @@ public class CreateContainerCmdTest {
         ensureBusybox();
     }
 
-    // CreateContainerCmdIT#createContainer
     @Test
-    public void testCreateContainer() {
-        String id = createContainer("sleep,9999");
+    public void createContainer() {
+        String id = CmdTestSupport.createContainer("sleep,9999");
         try {
             Assertions.assertFalse(id.isEmpty());
             given()
@@ -42,9 +40,8 @@ public class CreateContainerCmdTest {
         }
     }
 
-    // CreateContainerCmdIT : create with name, env and labels
     @Test
-    public void testCreateContainerWithNameEnvAndLabels() {
+    public void createContainerWithNameEnvAndLabels() {
         String name = "createTest-" + System.nanoTime();
         String id = given()
                 .when()
@@ -72,9 +69,8 @@ public class CreateContainerCmdTest {
         }
     }
 
-    // CreateContainerCmdIT : creating from a missing image fails
     @Test
-    public void testCreateContainerNonExistingImage() {
+    public void createContainerNonExistingImage() {
         given()
                 .when()
                 .queryParam("image", "non-existing-image-xyz:latest")

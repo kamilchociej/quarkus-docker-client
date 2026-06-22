@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's PauseCmdIT. */
 @QuarkusTest
 public class PauseCmdTest {
 
@@ -20,9 +19,8 @@ public class PauseCmdTest {
         ensureBusybox();
     }
 
-    // PauseCmdIT#pauseRunningContainer
     @Test
-    public void testPauseRunningContainer() {
+    public void pauseRunningContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             given().post("/docker-container/" + id + "/pause").then().statusCode(204);
@@ -37,9 +35,8 @@ public class PauseCmdTest {
         }
     }
 
-    // PauseCmdIT#pauseNonExistingContainer
     @Test
-    public void testPauseNonExistingContainer() {
+    public void pauseNonExistingContainer() {
         given().post("/docker-container/non-existing/pause").then().statusCode(404);
     }
 }

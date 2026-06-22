@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's ExecCreateCmdImplIT. */
 @QuarkusTest
 public class ExecCreateCmdTest {
 
@@ -20,9 +19,8 @@ public class ExecCreateCmdTest {
         ensureBusybox();
     }
 
-    // ExecCreateCmdImplIT#execCreateTest
     @Test
-    public void testExecCreate() {
+    public void execCreate() {
         String containerId = createAndStartContainer("sleep,9999");
         try {
             String execId = given()

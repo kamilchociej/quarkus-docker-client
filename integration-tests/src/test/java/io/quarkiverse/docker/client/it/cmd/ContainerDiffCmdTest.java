@@ -4,7 +4,7 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's ContainerDiffCmdIT. */
 @QuarkusTest
 public class ContainerDiffCmdTest {
 
@@ -21,7 +20,6 @@ public class ContainerDiffCmdTest {
         ensureBusybox();
     }
 
-    // ContainerDiffCmdIT#testContainerDiff
     @Test
     public void containerDiff() {
         String id = createAndStartContainer("touch,/test");
@@ -39,9 +37,8 @@ public class ContainerDiffCmdTest {
         }
     }
 
-    // ContainerDiffCmdIT#testContainerDiffWithNonExistingContainer
     @Test
-    public void testContainerDiffNonExisting() {
+    public void containerDiffNonExisting() {
         given().get("/docker-container/non-existing/diff").then().statusCode(404);
     }
 }

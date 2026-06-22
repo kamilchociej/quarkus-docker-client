@@ -4,7 +4,7 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's InspectExecCmdIT. */
 @QuarkusTest
 public class InspectExecCmdTest {
 
@@ -32,9 +31,8 @@ public class InspectExecCmdTest {
                 .asString();
     }
 
-    // InspectExecCmdIT#inspectExec : exit codes reflect command success/failure
     @Test
-    public void testInspectExec() {
+    public void inspectExec() {
         String containerId = createAndStartContainer("sleep,9999");
         try {
             String check1 = execCreate(containerId, "test,-e,/marker");

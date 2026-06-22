@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's CopyArchiveFromContainerCmdIT. */
 @QuarkusTest
 public class CopyArchiveFromContainerCmdTest {
 
@@ -20,9 +19,8 @@ public class CopyArchiveFromContainerCmdTest {
         ensureBusybox();
     }
 
-    // CopyArchiveFromContainerCmdIT#copyFromContainer : export a path as a non-empty tar
     @Test
-    public void testCopyFromContainer() {
+    public void copyFromContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             given()
@@ -48,9 +46,8 @@ public class CopyArchiveFromContainerCmdTest {
         }
     }
 
-    // CopyArchiveFromContainerCmdIT#copyFromNonExistingContainer
     @Test
-    public void testCopyFromNonExistingContainer() {
+    public void copyFromNonExistingContainer() {
         given().queryParam("resource", "/test").get("/docker-container/non-existing/copy-from").then().statusCode(404);
     }
 }

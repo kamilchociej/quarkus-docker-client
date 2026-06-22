@@ -4,14 +4,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's StopContainerCmdIT. */
 @QuarkusTest
 public class StopContainerCmdTest {
 
@@ -20,9 +19,8 @@ public class StopContainerCmdTest {
         ensureBusybox();
     }
 
-    // StopContainerCmdIT#testStopContainer
     @Test
-    public void testStopContainer() {
+    public void stopContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             given().queryParam("timeout", 2).post("/docker-container/" + id + "/stop").then().statusCode(204);
@@ -37,9 +35,8 @@ public class StopContainerCmdTest {
         }
     }
 
-    // StopContainerCmdIT#testStopNonExistingContainer
     @Test
-    public void testStopNonExistingContainer() {
+    public void stopNonExistingContainer() {
         given().post("/docker-container/non-existing/stop").then().statusCode(404);
     }
 }

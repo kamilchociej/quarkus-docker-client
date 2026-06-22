@@ -6,14 +6,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.inspectImage;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeImage;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's CommitCmdIT. */
 @QuarkusTest
 public class CommitCmdTest {
 
@@ -22,7 +21,6 @@ public class CommitCmdTest {
         ensureBusybox();
     }
 
-    // CommitCmdIT#commit : the committed image's parent is the busybox image
     @Test
     public void commit() {
         String containerId = createAndStartContainer("touch,/test");
@@ -47,7 +45,6 @@ public class CommitCmdTest {
         }
     }
 
-    // CommitCmdIT#commitWithLabels
     @Test
     public void commitWithLabels() {
         String containerId = createAndStartContainer("touch,/test");
@@ -75,7 +72,6 @@ public class CommitCmdTest {
         }
     }
 
-    // CommitCmdIT#commitNonExistingContainer
     @Test
     public void commitNonExistingContainer() {
         given()

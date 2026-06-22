@@ -4,7 +4,8 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.startsWith;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's ListContainersCmdIT. */
 @QuarkusTest
 public class ListContainersCmdTest {
 
@@ -21,9 +21,8 @@ public class ListContainersCmdTest {
         ensureBusybox();
     }
 
-    // ListContainersCmdIT#testListContainers
     @Test
-    public void testListContainers() {
+    public void listContainers() {
         String id = createAndStartContainer("sleep,9999");
         try {
             given()

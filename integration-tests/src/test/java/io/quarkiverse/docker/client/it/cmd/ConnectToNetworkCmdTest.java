@@ -6,14 +6,13 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeNetwork;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasKey;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's ConnectToNetworkCmdIT. */
 @QuarkusTest
 public class ConnectToNetworkCmdTest {
 
@@ -22,7 +21,6 @@ public class ConnectToNetworkCmdTest {
         ensureBusybox();
     }
 
-    // ConnectToNetworkCmdIT#connectToNetwork
     @Test
     public void connectToNetwork() {
         String containerId = createAndStartContainer("sleep,9999");

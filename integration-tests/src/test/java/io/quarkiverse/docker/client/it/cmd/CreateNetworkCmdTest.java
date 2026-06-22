@@ -1,23 +1,20 @@
 package io.quarkiverse.docker.client.it.cmd;
 
-import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createNetwork;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeNetwork;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
-/** Mirrors docker-java's CreateNetworkCmdIT. */
 @QuarkusTest
 public class CreateNetworkCmdTest {
 
-    // CreateNetworkCmdIT#createNetwork : created network has bridge driver
     @Test
-    public void testCreateNetwork() {
-        String id = createNetwork("createNetwork-" + System.nanoTime());
+    public void createNetwork() {
+        String id = CmdTestSupport.createNetwork("createNetwork-" + System.nanoTime());
         try {
             given()
                     .when()
@@ -31,9 +28,8 @@ public class CreateNetworkCmdTest {
         }
     }
 
-    // CreateNetworkCmdIT#createNetworkWithIpamConfig
     @Test
-    public void testCreateNetworkWithIpam() {
+    public void createNetworkWithIpam() {
         String name = "networkIpam-" + System.nanoTime();
         String subnet = "10.67.79.0/24";
         String id = given()
@@ -57,9 +53,8 @@ public class CreateNetworkCmdTest {
         }
     }
 
-    // CreateNetworkCmdIT#createNetworkWithLabel
     @Test
-    public void testCreateNetworkWithLabel() {
+    public void createNetworkWithLabel() {
         String name = "createNetworkWithLabel-" + System.nanoTime();
         String id = given()
                 .when()
@@ -80,9 +75,8 @@ public class CreateNetworkCmdTest {
         }
     }
 
-    // CreateNetworkCmdIT#createAttachableNetwork
     @Test
-    public void testCreateAttachableNetwork() {
+    public void createAttachableNetwork() {
         String name = "createAttachableNetwork-" + System.nanoTime();
         String id = given()
                 .when()

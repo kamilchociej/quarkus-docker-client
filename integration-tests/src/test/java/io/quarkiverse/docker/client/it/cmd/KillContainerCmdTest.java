@@ -4,14 +4,14 @@ import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.createAndStartC
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.ensureBusybox;
 import static io.quarkiverse.docker.client.it.cmd.CmdTestSupport.removeContainer;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-/** Mirrors docker-java's KillContainerCmdIT. */
 @QuarkusTest
 public class KillContainerCmdTest {
 
@@ -20,9 +20,8 @@ public class KillContainerCmdTest {
         ensureBusybox();
     }
 
-    // KillContainerCmdIT#killContainer
     @Test
-    public void testKillContainer() {
+    public void killContainer() {
         String id = createAndStartContainer("sleep,9999");
         try {
             given().post("/docker-container/" + id + "/kill").then().statusCode(204);
@@ -38,9 +37,8 @@ public class KillContainerCmdTest {
         }
     }
 
-    // KillContainerCmdIT#killNonExistingContainer
     @Test
-    public void testKillNonExistingContainer() {
+    public void killNonExistingContainer() {
         given().post("/docker-container/non-existing/kill").then().statusCode(404);
     }
 }
