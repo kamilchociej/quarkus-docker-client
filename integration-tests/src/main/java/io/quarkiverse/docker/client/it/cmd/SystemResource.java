@@ -31,6 +31,7 @@ import jakarta.ws.rs.core.Response;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.api.model.Event;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.Version;
@@ -102,7 +103,13 @@ public class SystemResource {
     }
 
     private void generateEvents() throws InterruptedException {
-        dockerClient.pullImageCmd(EVENTS_IMAGE).start().awaitCompletion();
+        // Only pull when the image is not already cached locally (avoids hitting
+        // the registry on every run).
+        try {
+            dockerClient.inspectImageCmd(EVENTS_IMAGE).exec();
+        } catch (NotFoundException notFound) {
+            dockerClient.pullImageCmd(EVENTS_IMAGE).start().awaitCompletion();
+        }
         CreateContainerResponse container = dockerClient.createContainerCmd(EVENTS_IMAGE)
                 .withCmd("sleep", "9999")
                 .exec();

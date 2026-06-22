@@ -74,9 +74,21 @@ public class ImageResource {
         return Response.noContent().build();
     }
 
+    // Test-setup helper: pull only when the image is not already cached locally.
+    // Used by the tests to guarantee an image is present without paying a registry
+    // round-trip (and possible timeout) on every run.
+    @POST
+    @Path("/ensure")
+    public Response ensureImage(@QueryParam("image") String image) throws InterruptedException {
+        try {
+            dockerClient.inspectImageCmd(image).exec();
+        } catch (NotFoundException notFound) {
+            dockerClient.pullImageCmd(image).start().awaitCompletion();
+        }
+        return Response.noContent().build();
+    }
+
     // helper used by CommitCmdIT / PullImageCmdIT / BuildImageCmdIT (inspectImageCmd).
-    // The image reference is passed as a query parameter because it may contain
-    // slashes (e.g. "docker-java/busybox:tag").
     @GET
     @Path("/inspect")
     public Response inspectImage(@QueryParam("name") String name) {

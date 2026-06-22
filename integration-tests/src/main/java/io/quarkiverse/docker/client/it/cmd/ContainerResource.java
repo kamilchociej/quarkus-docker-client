@@ -85,13 +85,8 @@ public class ContainerResource {
             @QueryParam("user") String user,
             @QueryParam("env") List<String> env,
             @QueryParam("label") List<String> labels,
-            @QueryParam("healthcheck") boolean healthcheck) {
-        // Best-effort pull so the image is present; ignored for local-only images.
-        try {
-            dockerClient.pullImageCmd(image).start().awaitCompletion();
-        } catch (Exception ignored) {
-            // image may already exist locally or be a local image id
-        }
+            @QueryParam("healthcheck") boolean healthcheck) throws InterruptedException {
+        pullIfAbsent(image);
         try {
             CreateContainerCmd createCmd = dockerClient.createContainerCmd(image);
             if (cmd != null && !cmd.isEmpty()) {
@@ -446,10 +441,7 @@ public class ContainerResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response attachScenario(@QueryParam("snippet") String snippet) throws Exception {
         String text = (snippet == null || snippet.isEmpty()) ? "hello world" : snippet;
-        try {
-            dockerClient.pullImageCmd("busybox:latest").start().awaitCompletion();
-        } catch (Exception ignored) {
-        }
+        pullIfAbsent("busybox:latest");
         CreateContainerResponse container = dockerClient.createContainerCmd("busybox:latest")
                 .withCmd("echo", text)
                 .withTty(false)
@@ -480,6 +472,19 @@ public class ContainerResource {
                 dockerClient.removeContainerCmd(container.getId()).withForce(true).exec();
             } catch (Exception ignored) {
             }
+        }
+    }
+
+    /**
+     * Pulls {@code image} only if it is not already available locally. Inspecting
+     * an image is a local-only operation, so this avoids hitting the registry
+     * (and the associated latency/timeouts) when the image is already cached.
+     */
+    private void pullIfAbsent(String image) throws InterruptedException {
+        try {
+            dockerClient.inspectImageCmd(image).exec();
+        } catch (NotFoundException notFound) {
+            dockerClient.pullImageCmd(image).start().awaitCompletion();
         }
     }
 }

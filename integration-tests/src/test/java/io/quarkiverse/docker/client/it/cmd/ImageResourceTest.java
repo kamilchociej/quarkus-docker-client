@@ -22,7 +22,7 @@ public class ImageResourceTest {
 
     @BeforeEach
     public void ensureBusybox() {
-        given().queryParam("image", BUSYBOX).post("/docker-image/pull").then().statusCode(204);
+        given().queryParam("image", BUSYBOX).post("/docker-image/ensure").then().statusCode(204);
     }
 
     private String startContainer(String cmd) {

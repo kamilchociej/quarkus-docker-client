@@ -19,7 +19,7 @@ public class ExecResourceTest {
     private static final String IMAGE = "busybox:latest";
 
     private String startContainer() {
-        given().queryParam("image", IMAGE).post("/docker-image/pull").then().statusCode(204);
+        given().queryParam("image", IMAGE).post("/docker-image/ensure").then().statusCode(204);
         String id = given()
                 .when()
                 .queryParam("image", IMAGE)

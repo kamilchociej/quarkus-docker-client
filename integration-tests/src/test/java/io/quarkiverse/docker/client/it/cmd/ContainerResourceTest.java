@@ -4,9 +4,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -23,13 +20,9 @@ import io.restassured.http.ContentType;
  * CopyArchiveFromContainerCmdIT and CopyFileFromContainerCmdIT).
  */
 @QuarkusTest
-@Testcontainers
 public class ContainerResourceTest {
 
     private static final String IMAGE = "busybox:latest";
-
-    @Container
-    public static GenericContainer<?> testContainer = new GenericContainer<>(IMAGE).withCommand("pwd");
 
     // ---- helpers -------------------------------------------------------------
 
