@@ -194,22 +194,8 @@ class DockerClientProcessor {
 
         index.getIndex().getKnownClasses().stream()
                 .map(ci -> ci.name().toString())
-                //                .filter(name -> name.startsWith("com.github.dockerjava.api"))
                 .filter(name -> name.startsWith("com.github.dockerjava.api") || name.startsWith("com.github.dockerjava.core"))
                 .forEach(classes::add);
-
-        //        reflectiveHierarchyProducer.produce(ReflectiveHierarchyBuildItem.builder(DockerClientImpl.class)
-        //                .constructors(true)
-        //                .methods(true)
-        //                .fields(true)
-        //                .ignoreNested(false)
-        //                .build());
-        //
-        //        index.getIndex()
-        //                .getAllKnownImplementations(DotName.createSimple(SyncDockerCmd.class.getName()))
-        //                .stream()
-        //                .map(ci -> ci.name().toString())
-        //                .forEach(classes::add);
 
         reflectiveClasses.produce(
                 ReflectiveClassBuildItem.builder(classes.toArray(String[]::new))
