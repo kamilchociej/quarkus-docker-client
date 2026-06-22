@@ -19,10 +19,12 @@ public class ExecResourceTest {
     private static final String IMAGE = "busybox:latest";
 
     private String startContainer() {
-        given().post("/docker-image/pull?image=" + IMAGE).then().statusCode(204);
+        given().queryParam("image", IMAGE).post("/docker-image/pull").then().statusCode(204);
         String id = given()
                 .when()
-                .post("/docker-container/create?image=" + IMAGE + "&cmd=sleep,9999")
+                .queryParam("image", IMAGE)
+                .queryParam("cmd", "sleep,9999")
+                .post("/docker-container/create")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -41,7 +43,8 @@ public class ExecResourceTest {
     private String execCreate(String containerId, String cmd) {
         return given()
                 .when()
-                .post("/docker-exec/" + containerId + "/create?cmd=" + cmd)
+                .queryParam("cmd", cmd)
+                .post("/docker-exec/" + containerId + "/create")
                 .then()
                 .statusCode(200)
                 .extract()

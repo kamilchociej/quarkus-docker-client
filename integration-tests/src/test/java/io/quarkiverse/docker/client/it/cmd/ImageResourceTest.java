@@ -22,7 +22,7 @@ public class ImageResourceTest {
 
     @BeforeEach
     public void ensureBusybox() {
-        given().post("/docker-image/pull?image=" + BUSYBOX).then().statusCode(204);
+        given().queryParam("image", BUSYBOX).post("/docker-image/pull").then().statusCode(204);
     }
 
     private String startContainer(String cmd) {
@@ -80,7 +80,8 @@ public class ImageResourceTest {
 
         given()
                 .when()
-                .post("/docker-image/pull?image=" + image)
+                .queryParam("image", image)
+                .post("/docker-image/pull")
                 .then()
                 .statusCode(204);
 
@@ -108,7 +109,10 @@ public class ImageResourceTest {
         try {
             given()
                     .when()
-                    .post("/docker-image/tag?image=" + BUSYBOX + "&repository=docker-java/busybox&tag=" + tag)
+                    .queryParam("image", BUSYBOX)
+                    .queryParam("repository", "docker-java/busybox")
+                    .queryParam("tag", tag)
+                    .post("/docker-image/tag")
                     .then()
                     .statusCode(204);
 
@@ -123,7 +127,10 @@ public class ImageResourceTest {
     public void testTagNonExistingImage() {
         given()
                 .when()
-                .post("/docker-image/tag?image=non-existing&repository=docker-java/busybox&tag=1")
+                .queryParam("image", "non-existing")
+                .queryParam("repository", "docker-java/busybox")
+                .queryParam("tag", "1")
+                .post("/docker-image/tag")
                 .then()
                 .statusCode(404);
     }
@@ -210,7 +217,9 @@ public class ImageResourceTest {
     public void testSaveImages() {
         byte[] tar = given()
                 .when()
-                .get("/docker-image/save-images?repository=busybox&tag=latest")
+                .queryParam("repository", "busybox")
+                .queryParam("tag", "latest")
+                .get("/docker-image/save-images")
                 .then()
                 .statusCode(200)
                 .extract()

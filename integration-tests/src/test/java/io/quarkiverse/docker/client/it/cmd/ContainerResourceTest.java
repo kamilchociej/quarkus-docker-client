@@ -145,7 +145,7 @@ public class ContainerResourceTest {
     public void testStopContainer() {
         String id = createAndStart("sleep,9999");
         try {
-            given().post("/docker-container/" + id + "/stop?timeout=2").then().statusCode(204);
+            given().queryParam("timeout", 2).post("/docker-container/" + id + "/stop").then().statusCode(204);
             given()
                     .when()
                     .get("/docker-container/" + id + "/inspect")
@@ -195,7 +195,7 @@ public class ContainerResourceTest {
             String startedAt1 = given().get("/docker-container/" + id + "/inspect")
                     .then().statusCode(200).extract().path("State.StartedAt");
 
-            given().post("/docker-container/" + id + "/restart?timeout=2").then().statusCode(204);
+            given().queryParam("timeout", 2).post("/docker-container/" + id + "/restart").then().statusCode(204);
 
             given()
                     .when()
@@ -252,7 +252,7 @@ public class ContainerResourceTest {
         String id = createAndStart("sleep,9999");
         try {
             String newName = "renamed-" + System.nanoTime();
-            given().post("/docker-container/" + id + "/rename?name=" + newName).then().statusCode(204);
+            given().queryParam("name", newName).post("/docker-container/" + id + "/rename").then().statusCode(204);
             given()
                     .when()
                     .get("/docker-container/" + id + "/inspect")
@@ -267,7 +267,7 @@ public class ContainerResourceTest {
     // RenameContainerCmdIT#renameExistingContainer (non-existing)
     @Test
     public void testRenameNonExistingContainer() {
-        given().post("/docker-container/non-existing/rename?name=foo").then().statusCode(404);
+        given().queryParam("name", "foo").post("/docker-container/non-existing/rename").then().statusCode(404);
     }
 
     // WaitContainerCmdIT#testWaitContainer
@@ -396,7 +396,8 @@ public class ContainerResourceTest {
                 .asString();
         try {
             given().post("/docker-container/" + id + "/start").then().statusCode(204);
-            given().post("/docker-container/" + id + "/resize?height=30&width=120").then().statusCode(204);
+            given().queryParam("height", 30).queryParam("width", 120).post("/docker-container/" + id + "/resize").then()
+                    .statusCode(204);
             given()
                     .when()
                     .post("/docker-container/" + id + "/wait")
@@ -494,13 +495,17 @@ public class ContainerResourceTest {
         try {
             given()
                     .when()
-                    .post("/docker-container/" + id + "/copy-to?remotePath=/&fileName=testReadFile&content=hello")
+                    .queryParam("remotePath", "/")
+                    .queryParam("fileName", "testReadFile")
+                    .queryParam("content", "hello")
+                    .post("/docker-container/" + id + "/copy-to")
                     .then()
                     .statusCode(204);
 
             byte[] tar = given()
                     .when()
-                    .get("/docker-container/" + id + "/copy-from?resource=/testReadFile")
+                    .queryParam("resource", "/testReadFile")
+                    .get("/docker-container/" + id + "/copy-from")
                     .then()
                     .statusCode(200)
                     .extract()
@@ -516,7 +521,10 @@ public class ContainerResourceTest {
     public void testCopyToNonExistingContainer() {
         given()
                 .when()
-                .post("/docker-container/non-existing/copy-to?remotePath=/&fileName=f&content=x")
+                .queryParam("remotePath", "/")
+                .queryParam("fileName", "f")
+                .queryParam("content", "x")
+                .post("/docker-container/non-existing/copy-to")
                 .then()
                 .statusCode(404);
     }
@@ -524,13 +532,14 @@ public class ContainerResourceTest {
     // CopyArchiveFromContainerCmdIT#copyFromNonExistingContainer
     @Test
     public void testCopyFromNonExistingContainer() {
-        given().get("/docker-container/non-existing/copy-from?resource=/test").then().statusCode(404);
+        given().queryParam("resource", "/test").get("/docker-container/non-existing/copy-from").then().statusCode(404);
     }
 
     // CopyFileFromContainerCmdIT#copyFromNonExistingContainer
     @Test
     public void testCopyFileFromNonExistingContainer() {
-        given().get("/docker-container/non-existing/copy-file-from?resource=/test").then().statusCode(404);
+        given().queryParam("resource", "/test").get("/docker-container/non-existing/copy-file-from").then()
+                .statusCode(404);
     }
 
     // AttachContainerCmdIT#attachContainerWithoutTTY
@@ -538,7 +547,8 @@ public class ContainerResourceTest {
     public void testAttachContainer() {
         given()
                 .when()
-                .post("/docker-container/attach-scenario?snippet=hello world")
+                .queryParam("snippet", "hello world")
+                .post("/docker-container/attach-scenario")
                 .then()
                 .statusCode(200)
                 .body(containsString("hello world"));

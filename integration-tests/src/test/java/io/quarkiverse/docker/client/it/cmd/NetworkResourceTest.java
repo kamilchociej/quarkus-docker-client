@@ -60,7 +60,8 @@ public class NetworkResourceTest {
         String subnet = "10.67.79.0/24";
         String id = given()
                 .when()
-                .post("/docker-network/" + name + "/ipam?subnet=" + subnet)
+                .queryParam("subnet", subnet)
+                .post("/docker-network/" + name + "/ipam")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -235,7 +236,9 @@ public class NetworkResourceTest {
     private String startContainer() {
         String id = given()
                 .when()
-                .post("/docker-container/create?image=" + IMAGE + "&cmd=sleep,9999")
+                .queryParam("image", IMAGE)
+                .queryParam("cmd", "sleep,9999")
+                .post("/docker-container/create")
                 .then()
                 .statusCode(200)
                 .extract()
